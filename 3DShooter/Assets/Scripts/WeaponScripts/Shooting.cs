@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Shooting : GunBehavioure
 {
-    [SerializeField] private Transform _parentForPool;
     private void Start()
     {
         PoolManager.SetPoolParent(_parentForPool);
         PreparePool();
         _currentAmmo = _clipAmmo;
         _onReload = false;
+        _playSound = GetComponent<AudioSource>();
     }
     
     
@@ -22,13 +22,16 @@ public class Shooting : GunBehavioure
              {
                 if (_timeToNextShoot < Time.time)
                 {
-                    // var bullet = Instantiate(_bulletPrefab, _bulletStartPoint.position, _bulletStartPoint.rotation);
+                    Instantiate(_shootParticle.gameObject, _muzzleStartPoint.position, _muzzleStartPoint.rotation);
                     var bullet = PoolManager.GetObject(_bulletPrefab.gameObject);
                     var bulletBehaviour = bullet.GetComponent<BulletBehavior>();
                     bulletBehaviour.SetStartData(_bulletStartPoint.position, _bulletStartPoint.rotation);
                     bulletBehaviour.Run();
                     _currentAmmo -= 1;
                     _timeToNextShoot = Time.time + _startTimeToShoot;
+                    _playSound.PlayOneShot(_shootSound);
+                    _playSound.PlayOneShot(_ammoSound);
+
                 }
 
              }
@@ -41,10 +44,13 @@ public class Shooting : GunBehavioure
     public override void Reload()
     {
        StartCoroutine(Reloading());
+        _playSound.PlayOneShot(_reloadSound);
         if (_summaryAmmo >= _clipAmmo && _currentAmmo != _clipAmmo)
         {
+            
             _currentAmmo = _clipAmmo;
             _summaryAmmo -= _clipAmmo;
+           
         }
         if (_summaryAmmo < _clipAmmo)
         {
