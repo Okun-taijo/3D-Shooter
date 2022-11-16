@@ -24,16 +24,19 @@ public class PlayerMovement : MonoBehaviour
     {
         _verticalJoystickAxis = _joystick.Vertical;
         _horizontalJoystickAxis = _joystick.Horizontal;
-        
+        _animator.SetFloat("Vertical", _verticalJoystickAxis);
+        _animator.SetFloat("Horizontal", _horizontalJoystickAxis);
         if (_verticalJoystickAxis >= _deadZone)
         {
             transform.localPosition += transform.forward * _frontMoveSpeed * Time.deltaTime;
-           
+         
+
         }
         if (_verticalJoystickAxis <= -_deadZone)
         {
             transform.localPosition += -transform.forward * _backMoveSpeed * Time.deltaTime;
            
+
         }
         if (_horizontalJoystickAxis >= _deadZone)
         {
@@ -43,14 +46,18 @@ public class PlayerMovement : MonoBehaviour
         if (_horizontalJoystickAxis <= -_deadZone)
         {
             transform.localPosition += -transform.right * _sideMoveSpeed * Time.deltaTime;
-           ;
+          
         }
         if (_horizontalJoystickAxis ==0 && _verticalJoystickAxis == 0)
         {
             _animator.SetTrigger("Idle");
         }
         else
+        {
             _animator.SetTrigger("Walking");
+        }
+
+
 
 
     }

@@ -18,7 +18,7 @@ public abstract class GunBehavioure : MonoBehaviour
     [SerializeField] protected AudioClip _shootSound;
     [SerializeField] protected AudioClip _ammoSound;
     [SerializeField] protected AudioClip _reloadSound;
-    protected AudioSource _playSound;
+    [SerializeField] protected AudioSource _playSound;
     [SerializeField] protected ParticleSystem _shootParticle;
     [SerializeField] protected Transform _muzzleStartPoint;
     // Start is called before the first frame update

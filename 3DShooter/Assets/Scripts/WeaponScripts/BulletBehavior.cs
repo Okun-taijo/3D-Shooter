@@ -6,22 +6,37 @@ public class BulletBehavior : MonoBehaviour
 {
     [SerializeField] protected float _bulletImpulse;
     [SerializeField] protected float _bulletLifeTime;
-    [SerializeField] protected Rigidbody _bulletRigidbody;
+    [SerializeField] private Rigidbody _rigidBody;
     private bool _isRun = false;
+    private Vector3 direct;
 
-  
- 
+   
+
+
+    private void Start()
+    {
+       
+    }
+    public void TakeDirectional(Vector3 directional)
+    {
+        direct = directional;
+        transform.forward = direct.normalized;
+       
+    }
     protected virtual void FixedUpdate()
     {
+       
         if (_isRun)
         {
-            _bulletRigidbody.AddForce(Vector3.forward * _bulletImpulse, ForceMode.Impulse);
+            transform.position += transform.forward * _bulletImpulse * Time.fixedDeltaTime;
+          
         }
     }
     public void SetStartData(Vector3 position, Quaternion quaternion)
     {
         transform.position = position;
         transform.rotation = quaternion;
+        
     }
 
     public void Run()
@@ -35,7 +50,7 @@ public class BulletBehavior : MonoBehaviour
     {
         _isRun = false;
     }
-    private void OnLifeTimeEnd()
+    public void OnLifeTimeEnd()
     {
         Stop();
         PoolManager.AddObject(gameObject);
@@ -46,4 +61,5 @@ public class BulletBehavior : MonoBehaviour
         yield return new WaitForSeconds(time);
         action?.Invoke();
     }
+   
 }

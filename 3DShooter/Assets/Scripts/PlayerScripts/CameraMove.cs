@@ -9,6 +9,7 @@ public class CameraMove : MonoBehaviour
     private Vector2 _lookInput;
     private float _cameraBorder;
     [SerializeField] private Transform _cameraTransform;
+    [SerializeField] private Transform _weaponCameraTransform;
     [SerializeField] private float _detectablePersentage;
     [SerializeField] private float _cameraSensitivity;
     [SerializeField] private float _topBorder=90f;
@@ -68,6 +69,7 @@ public class CameraMove : MonoBehaviour
     {
         _cameraBorder = Mathf.Clamp(_cameraBorder - _lookInput.y, _botBorder, _topBorder);
         _cameraTransform.localRotation = Quaternion.Euler(_cameraBorder, 0, 0);
+        _weaponCameraTransform.localRotation = Quaternion.Euler(_cameraBorder, 0, 0);
         transform.Rotate(transform.up, _lookInput.x);
     }
 }
