@@ -16,27 +16,27 @@ public class BulletBehavior : MonoBehaviour
     private void Start()
     {
        
+        
     }
-    public void TakeDirectional(Vector3 directional)
+    public void TakeDirectional(Vector3 direction)
     {
-        direct = directional;
-        transform.forward = direct.normalized;
-       
+        //direct = direction.normalized;
     }
     protected virtual void FixedUpdate()
     {
        
         if (_isRun)
         {
-            transform.position += transform.forward * _bulletImpulse * Time.fixedDeltaTime;
+            
+            transform.position += direct.normalized * _bulletImpulse * Time.fixedDeltaTime;
           
         }
     }
-    public void SetStartData(Vector3 position, Quaternion quaternion)
+    public void SetStartData(Vector3 position, Quaternion quaternion, Vector3 direction)
     {
         transform.position = position;
         transform.rotation = quaternion;
-        
+        direct = direction;
     }
 
     public void Run()

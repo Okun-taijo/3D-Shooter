@@ -15,13 +15,13 @@ public class BulletCollisions : MonoBehaviour
         {
             damageble.TakeDamage(_damage);
         }
-        foreach(ContactPoint contactPoint in collision.contacts)
+        foreach (ContactPoint contactPoint in collision.contacts)
         {
-           var impact = Instantiate(_impactPrefab, transform.position, Quaternion.identity);
+            var impact = Instantiate(_impactPrefab, transform.position, Quaternion.identity);
             Destroy(impact, 0.2f);
         }
         PoolManager.AddObject(gameObject);
-        
-        
+
+
     }
 }

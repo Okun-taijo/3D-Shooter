@@ -35,5 +35,6 @@ public class Jump : MonoBehaviour
             _rigidbody.AddForce(Vector2.up * _jumpForce, ForceMode.Force);
             _animator.SetTrigger("Jump");
         }
+       
     }
 }

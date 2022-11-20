@@ -5,30 +5,35 @@ using UnityEngine;
 public class Shooting : GunBehavioure
 {
     [SerializeField] private Camera _aimCamera;
-    [SerializeField] private float _spread;
-    private Ray _findCenter;
-    private RaycastHit _hit;
     [SerializeField] private GameObject _weaponPrefab;
-    
+    private Vector3 _directionWithSpread;
+    private Ray _findCenter;
+    [SerializeField] private float _spread;
+
 
     private void Start()
     {
+        
         PoolManager.SetPoolParent(_parentForPool);
         PreparePool();
         _currentAmmo = _clipAmmo;
         _onReload = false;
         _playSound = GetComponent<AudioSource>();
     }
+    private void Update()
+    {
+        
+    }
     public void RaycastToCrosshair()
     {
         _findCenter = _aimCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-      
+        RaycastHit _hit;
         Vector3 targetPoint;
 
         if (Physics.Raycast(_findCenter, out _hit))
         {
             targetPoint = _hit.point;
-            
+
         }
         else
         {
@@ -38,15 +43,9 @@ public class Shooting : GunBehavioure
         float x = Random.Range(-_spread, _spread);
         float y = Random.Range(-_spread, _spread);
 
-        Vector3 directionWithSpread = targetPoint - _bulletStartPoint.position + new Vector3(x, y, 0);
-        
-        var bullet = PoolManager.GetObject(_bulletPrefab.gameObject);
-        
-        var bulletBehaviour = bullet.GetComponent<BulletBehavior>();
-        
-        bulletBehaviour.TakeDirectional(directionWithSpread);
-       
+        _directionWithSpread = targetPoint - _bulletStartPoint.position + new Vector3(x, y, 0);
 
+        //_bulletPrefab.GetComponent<BulletBehavior>().TakeDirectional(directionWithSpread);
     }
 
     public override void Shoot()
@@ -61,7 +60,7 @@ public class Shooting : GunBehavioure
                     Instantiate(_shootParticle.gameObject, _muzzleStartPoint.position, _muzzleStartPoint.rotation);
                     var bullet = PoolManager.GetObject(_bulletPrefab.gameObject);
                      var bulletBehaviour = bullet.GetComponent<BulletBehavior>();
-                      bulletBehaviour.SetStartData(_bulletStartPoint.position, _bulletStartPoint.rotation);
+                      bulletBehaviour.SetStartData(_bulletStartPoint.position, _bulletStartPoint.rotation, _directionWithSpread.normalized);
                       bulletBehaviour.Run();
                     _currentAmmo -= 1;
                     _timeToNextShoot = Time.time + _startTimeToShoot;
@@ -114,6 +113,9 @@ public class Shooting : GunBehavioure
     {
         if (_weaponPrefab.activeInHierarchy)
         {
+
+            PoolManager.SetPoolParent(_parentForPool);
+            PreparePool();
             Shoot();
         }
     }

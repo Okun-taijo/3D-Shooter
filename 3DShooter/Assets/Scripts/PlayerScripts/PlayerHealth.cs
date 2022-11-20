@@ -17,5 +17,6 @@ public class PlayerHealth : ObjectHealth
     public override void TakeDamage(int damage)
     {
         base.TakeDamage(damage);
+        Debug.Log(_currentHealth);
     }
 }
