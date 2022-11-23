@@ -94,7 +94,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f6580617293b024ab022066ef080026, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bulletImpulse: 70
+  _bulletImpulse: 50
   _bulletLifeTime: 3
   _rigidBody: {fileID: 7225224875623416226}
 --- !u!114 &2843951066997193813

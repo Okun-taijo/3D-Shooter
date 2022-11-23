@@ -12,28 +12,39 @@ public class EnemyMeele : MonoBehaviour
     [SerializeField] private float _attackDistance;
     [SerializeField] private Transform _target;
     [SerializeField] private GameObject _punchTrigger;
+    [SerializeField] private GameObject _weaponInArms;
+    [SerializeField] private Transform _bulletPoint;
+    [SerializeField] private float _shootCooldown;
+    [SerializeField] private float _startShootCooldown;
     // Start is called before the first frame update
     void Start()
     {
-          
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        _distance = Vector3.Distance(_target.position, transform.position);
-        if (_distance > _actionDistance)
+        if (_target != null)
         {
+            _distance = Vector3.Distance(_target.position, transform.position);
+
+            if (_distance > _actionDistance)
+            {
+                Idle();
+            }
+            if (_distance < _actionDistance && _distance > _attackDistance)
+            {
+                Catching();
+            }
+            if (_distance <= _attackDistance)
+            {
+                Attack();
+            }
+        }
+        else
             Idle();
-        }
-        if (_distance < _actionDistance && _distance>_attackDistance)
-        {
-            Catching();
-        }
-        if (_distance <= _attackDistance)
-        {
-            Attack();
-        }
+        
     }
 
     private void Idle()
@@ -45,10 +56,13 @@ public class EnemyMeele : MonoBehaviour
 
     private void Catching()
     {
-        _enemyAgent.enabled = true;
-        _punchTrigger.SetActive(false);
-        _enemyAgent.SetDestination(_target.position);
-        _enemyAnimator.SetTrigger("Catch");
+        if (_target != null)
+        {
+            _enemyAgent.enabled = true;
+            _punchTrigger.SetActive(false);
+            _enemyAgent.SetDestination(_target.position);
+            _enemyAnimator.SetTrigger("Catch");
+        }
     }
 
     private void Attack()
@@ -56,5 +70,6 @@ public class EnemyMeele : MonoBehaviour
         _enemyAgent.enabled = false;
         _punchTrigger.SetActive(true);
         _enemyAnimator.SetTrigger("Attack");
+
     }
 }

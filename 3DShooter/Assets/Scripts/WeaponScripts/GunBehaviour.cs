@@ -7,9 +7,9 @@ public abstract class GunBehavioure : MonoBehaviour
     [SerializeField] protected GameObject _bulletPrefab;
     protected float _timeToNextShoot = 0;
     [SerializeField] protected float _startTimeToShoot;
-    [SerializeField] protected float _summaryAmmo;
-    [SerializeField] protected float _clipAmmo;
-    [SerializeField] protected float _currentAmmo;
+    public int _summaryAmmo;
+    [SerializeField] protected int _clipAmmo;
+    [SerializeField] protected int _currentAmmo;
     [SerializeField] protected float _reloadTime;
     [SerializeField] protected Transform _bulletStartPoint;
     [SerializeField] protected bool _onReload;
@@ -27,5 +27,16 @@ public abstract class GunBehavioure : MonoBehaviour
 
 
     public abstract void Reload();
-   
+
+    public void AddAmmos()
+    {
+        
+        
+            _summaryAmmo +=_clipAmmo;
+        
+    }
+    protected int GetSummaryAmmo()
+    {
+        return _summaryAmmo;
+    }
 }

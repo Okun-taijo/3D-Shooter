@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Shooting : GunBehavioure
 {
@@ -13,7 +14,7 @@ public class Shooting : GunBehavioure
 
     private void Start()
     {
-        
+       // _onAmmoCnange.Invoke(GetSummaryAmmo());
         PoolManager.SetPoolParent(_parentForPool);
         PreparePool();
         _currentAmmo = _clipAmmo;
@@ -45,7 +46,6 @@ public class Shooting : GunBehavioure
 
         _directionWithSpread = targetPoint - _bulletStartPoint.position + new Vector3(x, y, 0);
 
-        //_bulletPrefab.GetComponent<BulletBehavior>().TakeDirectional(directionWithSpread);
     }
 
     public override void Shoot()
@@ -119,5 +119,7 @@ public class Shooting : GunBehavioure
             Shoot();
         }
     }
+
+    
 }
 

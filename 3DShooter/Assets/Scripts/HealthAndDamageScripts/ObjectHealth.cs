@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class ObjectHealth : MonoBehaviour, IDamageble
 {
-    [SerializeField] private int _maxHealth;
+    public int _maxHealth;
     public int _currentHealth;
     [SerializeField] protected UnityEvent onEndedHealth;
 
